@@ -4,5 +4,5 @@ Build project
 * Setting entry point html with Parcel: parcel src/index.html
 * Install React: npm install --save react react-dom
 
-Launch project
+Launch project at http://localhost:1234/
 
