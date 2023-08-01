@@ -1,10 +1,9 @@
-
 {
   "name": "myFlix-client",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "parcel serve src/index.html"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -14,7 +13,9 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.9.3",
-    "parcel-bundler": "^1.12.5",
-    "process": "^0.11.10"
+    "node-sass": "^9.0.0",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10",
+    "sass": "^1.64.2"
   }
 }

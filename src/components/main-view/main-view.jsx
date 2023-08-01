@@ -37,7 +37,7 @@ export const MainView = () => {
       title: "Crimson Peak",
       image:
         "",
-      author: "Guillermo del Toro"
+      director: "Guillermo del Toro"
     }
   ]);
 
