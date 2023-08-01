@@ -27,17 +27,17 @@ export const MainView = () => {
     },
     {
       id: 4,
-      title: "",
+      title: "The Dreamers",
       image:
         "",
-      director: ""
+      director: "Bernardo Bertolucci"
     },
     {
       id: 5,
-      title: "",
+      title: "Crimson Peak",
       image:
         "",
-      author: "Robin Wieruch"
+      author: "Guillermo del Toro"
     }
   ]);
 
@@ -53,3 +53,27 @@ export const MainView = () => {
     );
   }
 }
+
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
+  if (selectedMovie) {
+    return <MovieView movie={selectedMovie} />;
+  }
+
+  if (movies.length === 0) {
+    return <div>The list is empty!</div>;
+  }
+
+  return (
+    <div>
+      <button onClick={() => {
+        alert("Click!")
+      }} 
+      > 
+      Click me!
+      </button>
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} />
+      ))}
+    </div>
+  );
