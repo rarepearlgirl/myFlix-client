@@ -10,6 +10,8 @@ const MyFlixApplication = () => {
   return <MainView />;
 };
 
+ReactDOM.render(<MyFlixApplication />, document.getElementById("root"));
+
 // Finds the root of your app
 const container = document.querySelector("#root");
 const root = ReactDOM.createRoot(container);
