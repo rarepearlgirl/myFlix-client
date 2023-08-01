@@ -1,8 +1,14 @@
 {
   "name": "myflix-client",
+  "main": "src/index.jsx",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +27,7 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.9.3",
+    "parcel-bundler": "^1.12.5",
     "process": "^0.11.10"
   }
 }
