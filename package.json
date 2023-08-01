@@ -1,12 +1,15 @@
 {
   "name": "myflix-client",
+  "main": "src/index.jsx",
   "version": "1.0.0",
   "description": "",
   "engines": {
     "node": "16.x"
   },
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
-  const [books, setBooks] = useState([
+  const [movies, setMovies] = useState([
     {
       id: 1,
       title: "Persona",
@@ -42,12 +43,13 @@ export const MainView = () => {
 
   if (movies.length === 0) {
     return <div>The list is empty!</div>;
+  } else {
+    return (
+      <div>
+        {movies.map((movie) => {
+          return <MovieCard key={movie.id} > {movie.title} </MovieCard>;
+        })}
+      </div>
+    );
   }
-  return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movieData={book} />
-      ))}
-    </div>
-  );
-};
+}
