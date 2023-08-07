@@ -29,7 +29,10 @@ export const MainView = () => {
           };
         });
         setMovies(moviesFromRender);
-      });
+        console.log(moviesFromRender);
+      })
+      .catch((error) => console.error('Error:', error)); // Catch and log any errors
+
   }, []);
 
   if (selectedMovie) {
