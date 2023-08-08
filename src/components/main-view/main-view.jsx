@@ -14,22 +14,7 @@ export const MainView = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        const moviesFromRender = data.map((movie) => {
-          return {
-            _id: movie.id,
-            Title: movie.Title,
-            ImagePath: movie.Image,
-            Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name
-            },
-            Director: {
-              Name: movie.Director.Name
-            },
-          };
-        });
-        setMovies(moviesFromRender);
-        console.log(moviesFromRender);
+        setMovies(data);
       })
       .catch((error) => console.error('Error:', error)); // Catch and log any errors
 
