@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-
+import { LoginView } from "../login-view/login-view";
+import "./main-view.css"
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
 
   // state changes for selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch('https://movie-api-uahq.onrender.com/movies')
@@ -19,6 +21,10 @@ export const MainView = () => {
       .catch((error) => console.error('Error:', error)); // Catch and log any errors
 
   }, []);
+
+  if (!user) {
+    return <LoginView />;
+  }
 
   if (selectedMovie) {
     return <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />;

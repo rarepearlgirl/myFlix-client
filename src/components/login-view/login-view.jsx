@@ -1,5 +1,5 @@
-import "./login-view.css";
-import { Register } from "../register/register.jsx";
+import "../login-view/login-view";
+import { Register } from "../signup-view/signup-view";
 import { useState } from "react";
 
 
@@ -22,9 +22,9 @@ export const LoginView = ({ onLoginSubmit }) => {
          .then((data) => {
             console.log(data);
             if (data.user) {
-               localStorage.setItem("user", JSON.stringify(data.user.username));
+               localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
-               onLoginSubmit(data.user.username, data.token);
+               onLoginSubmit(data.user.Name, data.token);
             }
             else {
                alert("Login failed");
@@ -42,7 +42,7 @@ export const LoginView = ({ onLoginSubmit }) => {
             <label>Password</label>
             <input type="password" name="password" placeholder="password" value={pass} onChange={(e) => setPass(e.target.value)} required></input>
             <button type="submit">Submit</button>
-            <div className="signup">Don't have account?<br />
+            <div className="signup">No account?<br />
                <div onClick={() => {
                   console.log("signup clicked");
                   setClicked(true);
@@ -58,7 +58,4 @@ export const LoginView = ({ onLoginSubmit }) => {
          <Register afterRegis={() => setClicked(false)} />
       </div>);
    }
-
-
-
 }
