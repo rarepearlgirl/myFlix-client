@@ -3,7 +3,7 @@ import { Register } from "../signup-view/signup-view";
 import { useState } from "react";
 
 
-export const LoginView = ({ onLoginSubmit }) => {
+export const LoginView = () => {
    const [userName, setUserName] = useState("");
    const [pass, setPass] = useState("");
    const [clicked, setClicked] = useState(false);
@@ -24,16 +24,17 @@ export const LoginView = ({ onLoginSubmit }) => {
             if (data.user) {
                localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
-               onLoginSubmit(data.user.Name, data.token);
+               // onLoginSubmit(data.user.Name, data.token);
             }
             else {
                alert("Login failed");
             }
          });
-
    };
+
    if (!clicked) {
       console.log(clicked);
+
       return (<div className="login">
          <h1>Login</h1>
          <form className="form" onSubmit={handleSubmit}>
@@ -42,7 +43,7 @@ export const LoginView = ({ onLoginSubmit }) => {
             <label>Password</label>
             <input type="password" name="password" placeholder="password" value={pass} onChange={(e) => setPass(e.target.value)} required></input>
             <button type="submit">Submit</button>
-            <div className="signup">No account?<br />
+            <div className="signup">Create account<br />
                <div onClick={() => {
                   console.log("signup clicked");
                   setClicked(true);
