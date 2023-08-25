@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Register = ({ afterRegis }) => {
+export const SignUp = ({onChangePage}) => {
     const [email, setEmail] = useState("");
     const [birthday, setBirthdate] = useState("");
     const [username, setUsername] = useState("");
@@ -8,13 +8,15 @@ export const Register = ({ afterRegis }) => {
 
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+
+        console.log(333)
          const data = {
-            username: Name,
-            password: Password,
-            email: Email,
-            birthday: Birthday
+            username,
+            password,
+            email,
+            birthday
         };
+
         fetch("https://movie-api-uahq.onrender.com/users", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
@@ -23,7 +25,7 @@ export const Register = ({ afterRegis }) => {
         }).then((response) => {
             if(response.ok){
                 alert("Signup successfull!");
-                afterRegis();
+
                 window.location.reload();
             }
             else{
@@ -32,6 +34,7 @@ export const Register = ({ afterRegis }) => {
 
         });
     };
+
     return (
         <div className="login">
            <h1>Register</h1>
@@ -39,7 +42,7 @@ export const Register = ({ afterRegis }) => {
             <label>Email</label>
             <input placeholder="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
             <label >Birthdate</label>
-            <input type="date" value={birthdate} onChange={(e) => setBirthdate(e.target.value)}></input>
+            <input type="date" value={birthday} onChange={(e) => setBirthdate(e.target.value)}></input>
             <label >Username</label>
             <input placeholder="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required></input>
             <label >Password</label>
@@ -47,8 +50,9 @@ export const Register = ({ afterRegis }) => {
             <label >Password repeat</label>
             <input placeholder="password" type="password" required></input>
             <button type="submit" >Register</button>
-            </form> 
-            
+            </form>    
+            <button onClick={onChangePage}>Login<br />
+            </button>
         </div>
     );
 }

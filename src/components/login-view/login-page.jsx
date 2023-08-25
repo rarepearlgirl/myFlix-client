@@ -1,12 +1,13 @@
-import "../login-view/login-view";
+import "./login-page";
 import { Register } from "../signup-view/signup-view";
 import { useState } from "react";
+import { SignUp } from "../signup-view/signup-view"
 
 
-export const LoginView = () => {
+export const LoginPage = ({ onLoggedIn }) => {
    const [userName, setUserName] = useState("");
    const [pass, setPass] = useState("");
-   const [clicked, setClicked] = useState(false);
+   const [isRegister, setIsRegister] = useState(false)
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -14,6 +15,7 @@ export const LoginView = () => {
          username: userName,
          password: pass
       };
+
       fetch("https://movie-api-uahq.onrender.com/login", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
@@ -24,6 +26,7 @@ export const LoginView = () => {
             if (data.user) {
                localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
+               onLoggedIn(data.user.Name);
                // onLoginSubmit(data.user.Name, data.token);
             }
             else {
@@ -32,10 +35,18 @@ export const LoginView = () => {
          });
    };
 
-   if (!clicked) {
-      console.log(clicked);
+   const onChangePage = () => {
+     setIsRegister(!isRegister)
+   };
 
-      return (<div className="login">
+   console.log(123, isRegister)
+
+   if(isRegister) {
+     return <SignUp onChangePage={onChangePage}/> 
+   }
+
+      return (
+      <div className="login">
          <h1>Login</h1>
          <form className="form" onSubmit={handleSubmit}>
             <label>Username</label>
@@ -43,20 +54,9 @@ export const LoginView = () => {
             <label>Password</label>
             <input type="password" name="password" placeholder="password" value={pass} onChange={(e) => setPass(e.target.value)} required></input>
             <button type="submit">Submit</button>
-            <div className="signup">Create account<br />
-               <div onClick={() => {
-                  console.log("signup clicked");
-                  setClicked(true);
-               }}>Signup</div>
-            </div>
          </form>
-      </div>);
-   }
-   else {
-      console.log(clicked);
-      return(
-      <div>
-         <Register afterRegis={() => setClicked(false)} />
-      </div>);
-   }
+         <button className="signup" onClick={onChangePage}>Create account 
+            </button>
+      </div>
+      );
 }
