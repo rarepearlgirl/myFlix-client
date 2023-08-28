@@ -7,32 +7,34 @@ export const SignUp = ({onChangePage}) => {
     const [password, setPassword] = useState("");
 
 
-    const handleSubmit = (e) => {
-
-        console.log(333)
+    const handleSubmit = async (e) => {
+    e.preventDefault()
          const data = {
-            username,
-            password,
-            email,
-            birthday
+            Name: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday
         };
 
-        fetch("https://movie-api-uahq.onrender.com/users", {
+        console.log(33333, data)
+
+        try{
+       await fetch("http://localhost:8080/users_add", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(data)
-            
         }).then((response) => {
             if(response.ok){
                 alert("Signup successfull!");
 
-                window.location.reload();
             }
             else{
                 alert("Signup failed!");
             }
 
-        });
+        });} catch(error) {
+            console.error(error)
+        }
     };
 
     return (

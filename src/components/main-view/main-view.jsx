@@ -2,35 +2,60 @@ import React, { useState, useEffect } from 'react';
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginPage } from "../login-view/login-page";
+import { SignUp } from '../signup-view/signup-view';
 import "./main-view.css"
 
 export const MainView = () => {
-  const [movies, setMovies] = useState([]);
+  const storedToken = localStorage.getItem("token");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const [movie, setMovie] = useState([]);
 
   // state changes for selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [user, setUser] = useState(null);
+   const [user, setUser] = useState(storedUser? storedUser : null);
+  const [token, setToken] = useState(storedToken? storedToken : null);
 
   useEffect(() => {
-    fetch('https://movie-api-uahq.onrender.com/movies')
+    if (!token) return;
+    fetch ('https://movie-api-uahq.onrender.com/movies', {
+    headers: { Authorization: `Bearer ${token}` },
+  })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setMovies(data);
+        console.log("movies from api:", data);
+        const moviesFromApi = data.map((movie) => {
+          return {
+            _id: movie._id,
+            Title: movie.Title,
+            Director: {
+              name: movie.Director.Name,
+              bio: movie.Director.Bio
+            },
+            Description: movie.Description,
+            Genre: {
+            name: movie.Genre.Name,
+            Description: movie.Genre.Description
+            },
+            imagePath: movie.imagePath,
+          };
+        });
+        setMovie(moviesFromApi);
       })
       .catch((error) => console.error('Error:', error)); // Catch and log any errors
 
-  }, []);
+  }, [token]);
 
   if (!user) {
-    return <LoginPage onLoggedIn={(user) => setUser(user)}/>;
+    return <LoginPage onLoggedIn={(user, token) => {
+      setUser(user);
+    setToken(token);
+  }}/>;
   }
-
   if (selectedMovie) {
     return <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />;
   }
 
-  if (movies.length === 0) {
+  if (movie.length === 0) {
     return <div>The list is empty!</div>;
   }
 
@@ -43,14 +68,14 @@ export const MainView = () => {
         </div>
 
         <h2 onClick={() => {
-          setUserName(null);
+          setUser(null);
           setToken(null);
           localStorage.clear();
         }
         }>Logout</h2>
       </div>
     <div>
-      {movies.map((movie, i) => (
+      {movie.map((movie, i) => (
         <MovieCard key={i}
           movie={movie}
           onMovieClick={(newSelectedMovie) => {
