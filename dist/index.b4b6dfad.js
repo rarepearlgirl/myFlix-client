@@ -27182,7 +27182,7 @@ const LoginPage = ({ onLoggedIn })=>{
             Name: userName,
             Password: pass
         };
-        fetch("http://localhost:8080/login", {
+        fetch("https://movie-api-uahq.onrender.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -27330,7 +27330,7 @@ const SignUp = ({ onChangePage })=>{
         };
         console.log(33333, data);
         try {
-            await fetch("http://localhost:8080/users_add", {
+            await fetch("https://movie-api-uahq.onrender.com/users_add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

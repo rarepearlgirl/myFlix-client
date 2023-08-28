@@ -16,7 +16,7 @@ export const LoginPage = ({ onLoggedIn }) => {
          Password: pass
       };
 
-      fetch("http://localhost:8080/login", {
+      fetch("https://movie-api-uahq.onrender.com/login", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(data)
