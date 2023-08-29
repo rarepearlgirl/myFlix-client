@@ -17,7 +17,7 @@ export const MainView = () => {
 
   useEffect(() => {
     if (!token) return;
-    fetch ('https://movie-api-uahq.onrender.com/movies', {
+    fetch ('https://movie-api-wbl0.onrender.com/movies', {
     headers: { Authorization: `Bearer ${token}` },
   })
       .then((response) => response.json())
@@ -45,14 +45,19 @@ export const MainView = () => {
 
   }, [token]);
 
-  if (!user) {
-    return <LoginPage onLoggedIn={(user, token) => {
-      setUser(user);
+  const onLoggedIn = (user, token) => {
+    setUser(user);
     setToken(token);
-  }}/>;
   }
+
+  const onBackClick = () => setSelectedMovie(null);
+
+  if (!user) {
+    return <LoginPage onLoggedIn={onLoggedIn}/>;
+  }
+  
   if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />;
+    return <MovieView movie={selectedMovie} onBackClick={onBackClick} />;
   }
 
   if (movie.length === 0) {

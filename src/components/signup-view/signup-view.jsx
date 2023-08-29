@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from "react";
 
 export const SignUp = ({onChangePage}) => {
@@ -19,7 +20,7 @@ export const SignUp = ({onChangePage}) => {
         console.log(33333, data)
 
         try{
-       await fetch("https://movie-api-uahq.onrender.com/users_add", {
+       await fetch("https://movie-api-wbl0.onrender.com/users_add", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(data)
@@ -57,4 +58,8 @@ export const SignUp = ({onChangePage}) => {
             </button>
         </div>
     );
+}
+
+SignUp.propTypes = {
+    onChangePage: PropTypes.func.isRequired
 }

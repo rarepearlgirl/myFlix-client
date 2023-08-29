@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import "./login-page";
-import { Register } from "../signup-view/signup-view";
 import { useState } from "react";
 import { SignUp } from "../signup-view/signup-view"
 
@@ -16,7 +16,7 @@ export const LoginPage = ({ onLoggedIn }) => {
          Password: pass
       };
 
-      fetch("https://movie-api-uahq.onrender.com/login", {
+      fetch("https://movie-api-wbl0.onrender.com/login", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(data)
@@ -25,8 +25,7 @@ export const LoginPage = ({ onLoggedIn }) => {
             if (data.user) {
                localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
-               onLoggedIn(data.user.Name);
-               // onLoginSubmit(data.user.Name, data.token);
+               onLoggedIn(data.user.Name, data.token);
             }
             else {
                alert("Login failed");
@@ -58,4 +57,7 @@ export const LoginPage = ({ onLoggedIn }) => {
       </div>
       );
 }
-//<input type="password" name="password" autoComplete="off" ... />
+
+LoginPage.propTypes = {
+    onLoggedIn: PropTypes.func.isRequired
+}
