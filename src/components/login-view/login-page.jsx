@@ -1,7 +1,10 @@
+import PropTypes from 'prop-types';
 import "./login-page";
-import { Register } from "../signup-view/signup-view";
 import { useState } from "react";
-import { SignUp } from "../signup-view/signup-view"
+import { SignUp } from '../signup-view/signup-view';
+
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 
 export const LoginPage = ({ onLoggedIn }) => {
@@ -16,7 +19,7 @@ export const LoginPage = ({ onLoggedIn }) => {
          password: pass
       };
 
-      fetch("https://movie-api-uahq.onrender.com/login", {
+      fetch("https://movie-api-wbl0.onrender.com/login", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(data)
@@ -26,11 +29,11 @@ export const LoginPage = ({ onLoggedIn }) => {
             if (data.user) {
                localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
-               onLoggedIn(data.user.Name);
-               // onLoginSubmit(data.user.Name, data.token);
+               onLoggedIn(data.user.Name, data.token);
+               onLoggedIn(data.user.Name, data.token);
             }
             else {
-               alert("Login failed");
+               alert("Login failed!");
             }
          });
    };
@@ -39,24 +42,42 @@ export const LoginPage = ({ onLoggedIn }) => {
      setIsRegister(!isRegister)
    };
 
-   console.log(123, isRegister)
-
-   if(isRegister) {
+  if(isRegister) {
      return <SignUp onChangePage={onChangePage}/> 
    }
 
       return (
-      <div className="login">
-         <h1>Login</h1>
-         <form className="form" onSubmit={handleSubmit}>
-            <label>Username</label>
-            <input type="text" name="username" placeholder="username" value={userName} onChange={(e) => setUserName(e.target.value)} required></input>
-            <label>Password</label>
-            <input type="password" name="password" placeholder="password" value={pass} onChange={(e) => setPass(e.target.value)} required></input>
-            <button type="submit">Submit</button>
-         </form>
-         <button className="signup" onClick={onChangePage}>Create account 
-            </button>
-      </div>
-      );
+      <div>
+      <Form onSubmit={handleSubmit}>
+         <Form.Group controlId="formUserName">
+            <Form.Label>Username:</Form.Label>
+            <Form.Control
+               type="text"
+               value={userName}
+               onChange={(e) => setUserName(e.target.value)}
+               required
+               minLength="5"
+            />
+         </Form.Group>
+
+         <Form.Group controlId="formPassword">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+               type="password"
+               value={pass}
+               onChange={(e) => setPass(e.target.value)}
+               required
+            />
+         </Form.Group>
+         <Button variant="primary" type="submit">
+            Submit
+         </Button>
+         <p>or</p>
+      </Form>
+      <button type= "button" class="btn btn-success" onClick={onChangePage}>Create account 
+      </button></div>
+   );
+}
+LoginPage.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired
 }
