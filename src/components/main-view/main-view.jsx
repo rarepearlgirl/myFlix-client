@@ -79,7 +79,6 @@ if (!user) {
 
         <h2 onClick={() => {
           setUser(null);
-          setToken(null);
           localStorage.clear();
         }
         }>Logout</h2>

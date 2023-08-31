@@ -91,7 +91,7 @@ export const SignUp = ({onChangePage}) => {
             </Button>
         </Form>
             <p>or</p>
-            <button type= "button" class="btn btn-success" onClick={onChangePage}> Login 
+            <button type= "button" className="btn btn-success" onClick={onChangePage}> Login 
             </button>
         </div>
     );
