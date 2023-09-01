@@ -11,7 +11,6 @@ export const MainView = () => {
   const storedToken = localStorage.getItem("token");
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const [movie, setMovie] = useState([]);
-
   // state changes for selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
    const [user, setUser] = useState(storedUser? storedUser : null);
@@ -31,17 +30,19 @@ export const MainView = () => {
             _id: movie._id,
             Title: movie.Title,
             Director: {
-              name: movie.Director.name,
-              bio: movie.Director.Bio
+              Name: movie.Director.Name,
+              Bio: movie.Director.Bio
             },
             Description: movie.Description,
             Genre: {
-            name: movie.Genre.Name,
+            Name: movie.Genre.Name,
             Description: movie.Genre.Description
             },
             imagePath: movie.ImagePath,
           };
         });
+
+
         setMovie(moviesFromApi);
       })
       .catch((error) => console.error('Error:', error)); // Catch and log any errors
@@ -63,10 +64,6 @@ if (!user) {
     return <MovieView movie={selectedMovie} onBackClick={onBackClick} />;
   }
 
-  if (movie.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
   return (
         <Row> 
       <div className="application">
@@ -83,9 +80,8 @@ if (!user) {
         }
         }>Logout</h2>
       </div>
-      
       </Row> 
-    <Row>
+    {movie.length > 0 ? <Row>
     <div>
       {movie.map((movie, i) => (
         <Col className="mb-5 d-flex" key={movie.id} xs={3} sm={6} md={6}>
@@ -98,7 +94,7 @@ if (!user) {
         </Col>
       ))}
     </div>
-    </Row>
+    </Row> : <div>Movie list empty</div>}
     </div>
     
   </Row>

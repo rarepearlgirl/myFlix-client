@@ -15,8 +15,8 @@ export const LoginPage = ({ onLoggedIn }) => {
    const handleSubmit = (e) => {
       e.preventDefault();
       const data = {
-         username: userName,
-         password: pass
+         Name: userName,
+         Password: pass
       };
 
       fetch("https://movie-api-wbl0.onrender.com/login", {

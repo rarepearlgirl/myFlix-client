@@ -21,7 +21,7 @@ export const SignUp = ({onChangePage}) => {
         };
 
         try {
-            await fetch("https://movie-api-wbl0.onrender.com/users_add", {
+           const user = await fetch("https://movie-api-wbl0.onrender.com/users_add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
