@@ -16,6 +16,16 @@ export const MainView = () => {
    const [user, setUser] = useState(storedUser? storedUser : null);
   const [token, setToken] = useState(storedToken? storedToken : null);
 
+  const chunkArray = (array, chunkSize) => {
+  let results = [];
+  while (array.length) {
+    results.push(array.splice(0, chunkSize));
+  }
+  return results;
+};
+
+const movieRows = chunkArray([...movie], Math.ceil(movie.length / 2));
+
   useEffect(() => {
     if (!token) return;
     fetch('https://movie-api-wbl0.onrender.com/movies',{
@@ -65,38 +75,43 @@ if (!user) {
   }
 
   return (
-        <Row> 
-      <div className="application">
-      <Row>
-        <div className="navbar">
+  <div className="application">
+    <Row>
+      <div className="navbar">
         <div className="application-title">
-          <img src="" height="" width="" />
+          <img src="" alt="App Logo" height="" width="" />
           <h1>Movie List</h1>
         </div>
-
         <h2 onClick={() => {
           setUser(null);
           localStorage.clear();
-        }
-        }>Logout</h2>
+        }}>
+          Logout
+        </h2>
       </div>
-      </Row> 
-    {movie.length > 0 ? <Row>
-    <div>
-      {movie.map((movie, i) => (
-        <Col className="mb-5 d-flex" key={movie.id} xs={3} sm={6} md={6}>
-        <MovieCard key={i}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
+    </Row>
+
+    {movie.length > 0 ? (
+      movieRows.map((movieChunk, rowIndex) => (
+        <Row key={rowIndex}>
+          {movieChunk.map((movieItem, index) => (
+            <Col className="mb-5 d-flex" key={movieItem._id} xs={12} sm={6} md={3}>
+              <MovieCard
+                movie={movieItem}
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            </Col>
+          ))}
+        </Row>
+      ))
+    ) : (
+      <Row>
+        <Col>
+          <div>Movie list empty</div>
         </Col>
-      ))}
-    </div>
-    </Row> : <div>Movie list empty</div>}
-    </div>
-    
-  </Row>
-  );
-};
+      </Row>
+    )}
+  </div>
+)
