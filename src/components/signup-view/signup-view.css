@@ -9,6 +9,8 @@ button {
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 30px;
+    width: 150px;
+    height: 40px;
 }
 
 .register {

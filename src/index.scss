@@ -12,4 +12,11 @@ $primary: honeydew;
   border: none;
   border-radius: 4px;
   margin: 10px 5px;
+  width: 100px;
+  height: 40px;
+}
+
+.card img {
+   height: 200px;  
+   object-fit: cover; 
 }
