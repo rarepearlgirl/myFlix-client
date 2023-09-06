@@ -10,54 +10,23 @@ export const MainView = () => {
 
   const storedToken = localStorage.getItem("token");
   const storedUser = JSON.parse(localStorage.getItem("user"));
-  const [movie, setMovie] = useState([]);
+  const [movies, setMovies] = useState([]);
   // state changes for selected movies
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedMovies, setSelectedMovies] = useState(null);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
 
-  const chunkArray = (array, chunkSize) => {
-    let results = [];
-    while (array.length) {
-      results.push(array.splice(0, chunkSize));
-    }
-    return results;
-  };
-
-  const movieRows = chunkArray([...movie], Math.ceil(movie.length / 2));
-
-  useEffect(() => {
+useEffect(() => {
     if (!token) return;
     fetch('https://movie-api-wbl0.onrender.com/movies', {
-      headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
     })
-
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("movies from api:", data);
-        const moviesFromApi = data.map((movie) => {
-          return {
-            _id: movie._id,
-            Title: movie.Title,
-            Director: {
-              Name: movie.Director.Name,
-              Bio: movie.Director.Bio
-            },
-            Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name,
-              Description: movie.Genre.Description
-            },
-            imagePath: movie.ImagePath,
-          };
-        });
-
-
-        setMovie(moviesFromApi);
-      })
-      .catch((error) => console.error('Error:', error)); // Catch and log any errors
-
-  }, [token]);
+    .then((response) => response.json())
+    .then((data) => {
+        setMovies(data);  // <-- Directly using the data
+    })
+    .catch((error) => console.error('Error:', error));
+}, [token]);
 
   const onLoggedIn = (user, token) => {
     setUser(user);
@@ -65,14 +34,14 @@ export const MainView = () => {
     // fetchMovies(token);
   }
 
-  const onBackClick = () => setSelectedMovie(null);
+  const onBackClick = () => setSelectedMovies(null);
 
   if (!user) {
     return <LoginPage onLoggedIn={onLoggedIn} />;
   }
 
-  if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={onBackClick} />;
+  if (selectedMovies) {
+    return <MovieView movies={selectedMovies} onBackClick={onBackClick} />;
   }
 
   return (
@@ -92,27 +61,25 @@ export const MainView = () => {
         </div>
       </Row>
 
-      {movie.length > 0 ? (
-        movieRows.map((movieChunk, rowIndex) => (
-          <Row key={rowIndex}>
-            {movieChunk.map((movieItem, index) => (
-              <Col className="mb-5 d-flex" key={movieItem._id} xs={12} sm={6} md={3} lg={3}>
-                <MovieCard
-                  movie={movieItem}
-                  onMovieClick={(newSelectedMovie) => {
-                    setSelectedMovie(newSelectedMovie);
-                  }}
-                />
-              </Col>
-            ))}
-          </Row>
-        ))
-      ) : (
-        <Row>
-          <Col>
-            <div>Movie list empty</div>
-          </Col>
-        </Row>
-      )}
+{movies.length > 0 ? (
+  <Row>
+    {movies.map((moviesItem, index) => (
+      <Col className="mb-5 d-flex" key={moviesItem._id} xs={6} sm={6} md={3} lg={3}>
+        <MovieCard
+          movies={moviesItem}
+          onMovieClick={(newSelectedMovies) => {
+            setSelectedMovies(newSelectedMovies);
+          }}
+        />
+      </Col>
+    ))}
+  </Row>
+) : (
+  <Row>
+    <Col>
+      <div>Movie list empty</div>
+    </Col>
+  </Row>
+)}
     </div>
   );

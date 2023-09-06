@@ -34,7 +34,7 @@ export const LoginPage = ({ onLoggedIn }) => {
             if (data.user) {
                localStorage.setItem("user", JSON.stringify(data.user.Name));
                localStorage.setItem("token", data.token);
-               onLoggedIn(data.user.Name);
+               onLoggedIn(data.user, data.token);
             } else {
                alert(data.message || "Login failed");
             }
