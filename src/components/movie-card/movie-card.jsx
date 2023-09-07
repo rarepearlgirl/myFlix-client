@@ -6,12 +6,12 @@ import './movie-card.css';
 export const MovieCard = ({ movies, onMovieClick }) => {
   return (
     <Card className="top">
-      <Card.Img variant='top' src={movies.ImagePath} />
+      <Card.Img variant='movie-card' src={movies.ImagePath} />
       <Card.Body>
         <Card.Title>{movies.Title}</Card.Title>
-        <Card.Text>{movies.Director.Name}</Card.Text>
+        <Card.Text><h5>{movies.Director.Name}</h5></Card.Text>
         <Card.Text>{movies.Description}</Card.Text>
-        <Card.Text>{movies.Genre.Name}</Card.Text>
+        <Card.Text><h6>{movies.Genre.Name}</h6></Card.Text>
         <Button onClick={() => onMovieClick(movies)} variant="link">
           Read more
         </Button>

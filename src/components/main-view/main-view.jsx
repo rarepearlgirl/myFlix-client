@@ -4,7 +4,7 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginPage } from "../login-view/login-page";
 import { SignUp } from '../signup-view/signup-view';
 import "./main-view.css";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap"
 
 export const MainView = () => {
 

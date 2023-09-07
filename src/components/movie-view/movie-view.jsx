@@ -12,24 +12,24 @@ export const MovieView = ({ movies, onBackClick }) => {
         <img src={movies.ImagePath} alt="Movie Poster" />
       </div>
       <div>
-        <span><strong>Title: </strong></span>
+        <strong>Title: </strong>
         <span>{movies.Title}</span>
       </div>
       <div>
-        <span><strong>Director: </strong></span>
+        <strong>Director: </strong>
         <span>{movies.Director.Name}</span>
       </div>
            <div>
-        <span><strong>Director's Bio: </strong></span>
+        <strong>Director's Bio: </strong>
         <span>{movies.Director.Bio}</span>
       </div>
       <div>
-        <span><strong>Genre: </strong>  </span>
+        <strong>Genre: </strong>
         <span>{movies.Genre.Name}</span>
       </div>
       <div>
-        <span><strong>Genre Description: </strong> </span>
-        <span>{movies.Genre.Description}</span>
+        <strong>Genre Description: </strong>
+        <p>{movies.Genre.Description}</p>
       </div>
       <button onClick={onBackClick} className="back-button"
       style={{ cursor: "pointer" }}>Back</button>

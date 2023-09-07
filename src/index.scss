@@ -1,11 +1,20 @@
 $color: steelblue;
 $primary: honeydew;
+$card-height: 200px;
+
+body {
+  font-family: 'Frank Ruhl Libre', serif;  
+  background-color: $primary;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', serif;
+}
 
 .my-flix {
   color: $color;
 }
 
-.back-button {
+.back-button, .btn {
   padding: 4px 12px 4px 12px;
   color:whitesmoke;
   background-color: dodgerblue;
@@ -14,9 +23,43 @@ $primary: honeydew;
   margin: 10px 5px;
   width: 100px;
   height: 40px;
+  transition: background-color 0.3s ease;
+
+   &:hover {
+    background-color: darken($color, 10%); 
+  }
 }
 
-.card-img-top {
+.back-button {
+  color: whitesmoke;
+  background-color: $color;
+}
+
+.movie-card {
    height: 200px;  
    object-fit: cover; 
 }
+
+.card {      
+  .card-title {
+    font-size: 24px; // For example, adjust the title size.
+  }  
+  .card-text {
+    letter-spacing: 1px; // Add space between letters.
+    line-height: 1.5; // Adjust the space between lines of text.
+  }
+  &.top {
+    .card-img-top {
+      height: $card-height;
+      object-fit: cover;
+    }
+
+  }
+
+  img, svg {
+    vertical-align: baseline;
+    height: 250px;
+    object-fit: cover;
+  }
+}
+
