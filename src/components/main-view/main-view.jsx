@@ -11,7 +11,7 @@ import { ProfileView } from "..//profile-view/profile-view";
 
 export const MainView = () => {
   const userItem = localStorage.getItem("user");
-  const userObjectItem = localStorage.getItem("userObject");
+  // const userObjectItem = localStorage.getItem("userObject");
   const savedUser = !!userItem && userItem !== "undefined" ? JSON.parse(userItem) : null;
   // const savedUserObject = userObjectItem ? JSON.parse(userObjectItem) : null;
   // const savedUserObject = (userObjectItem && userObjectItem !== 'undefined') ? JSON.parse(userObjectItem) : null;
@@ -39,7 +39,6 @@ export const MainView = () => {
   }, [token, user]);
 
   const onLogout = () => {
-    setUserName(null);
     setToken(null);
     localStorage.clear();
     window.location.reload();
@@ -86,7 +85,6 @@ export const MainView = () => {
 
             }
           />
-          {/* <Route path="/movies/:movieId" element={<MovieRoute />} /> */}
           <Route
             path="/movies/:movieId"
             element={
@@ -96,9 +94,7 @@ export const MainView = () => {
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                  <MovieView movies={movies} user={user} token={token} setuser={(user) => {
-                    setUserName(user);
-                  }} />
+                      <MovieView movies={movies} user={user} token={token} setuser={onSetUserData} />
                 )}
               </>
             }

@@ -41,7 +41,7 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
             Name: username,
             Password: password
         };
-      fetch("https://movie-api-wbl0.onrender.com/users/" + user, {
+      fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
             method: "PUT",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
             body: JSON.stringify(data)

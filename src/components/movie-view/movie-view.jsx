@@ -31,7 +31,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
     }, []);
 
     const addToFavoriteMovies = () => {
-        fetch("https://movie-api-wbl0.onrender.com/users/" + user +"/" + movieId, {
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movie.Title, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
             });
     }
     const removeFromFavoriteMovies = () => {
-        fetch("https://movie-api-wbl0.onrender.com/users/" + user +"/" + movieId, {
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movie.Title, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
