@@ -10,7 +10,6 @@ import "../navigation-bar/navigation-bar";
 export const MovieCard = ({ movie, user, token, setuser }) => {
     const isMovieAdded = user.FavoriteMovies.find((item) => item === movie.Title)
     const [isFavoriteMovies, setIsFavoriteMovies] = useState(!!isMovieAdded);
-    const { movieId } = useParams();
 
     useEffect(() => {
         if (user && user.favoriteMovies && user.favoriteMovies.includes(movieTitle)) {

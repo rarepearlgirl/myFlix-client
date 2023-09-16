@@ -18,9 +18,10 @@ export const MovieView = ({ movies, user, token, setuser }) => {
     if (!movieToDisplay) {
   return <div>Movie not found!</div>;
 }
+    const isMovieAdded = user.FavoriteMovies.find((item) => item === movieToDisplay.Title)
 
 
-    const [isFavoriteMovies, setIsFavoriteMovies] = useState(false);
+    const [isFavoriteMovies, setIsFavoriteMovies] = useState(!!isMovieAdded);
        
     useEffect(() => {
     
@@ -31,41 +32,49 @@ export const MovieView = ({ movies, user, token, setuser }) => {
     }, []);
 
     const addToFavoriteMovies = () => {
-        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movie.Title, {
+        if (isMovieAdded) {
+            alert("Movie already in the list");
+            return
+        };
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movieToDisplay.Title, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            }
-         }).then((response) => {
-            if(response.ok){
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        }).then((response) => {
+            if (response.ok) {
                 return response.json();
-            }})
+            } else {
+                console.error(`Adding favorite movies error. Response status: ${response.status}`, response)
+                throw new Error(response.status)
+            }
+        })
             .then((res) => {
-                console.log('Server Response:', res);
-                  setIsFavoriteMovies(true);
-                  setuser(res);
-                  localStorage.setItem("userObject", JSON.stringify(res));
-                  alert("Movie is added to favorite movies");
-            });
+                setIsFavoriteMovies(true);
+                const updatedUser = { ...user, FavoriteMovies: [...user.FavoriteMovies, movieToDisplay.Title] }
+                setuser(updatedUser);
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                alert("Movie is added to favorite movies");
+            }).catch((error) => console.error(error));
     }
+
     const removeFromFavoriteMovies = () => {
-        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movie.Title, {
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name + "/favoriteMovies/" + movieToDisplay.Title, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             }
-         }).then((response) => {
-            console.log('Server Response:', response);
-            if(response.ok){
+        }).then((response) => {
+            if (response.ok) {
                 return response.json();
-            }})
+            }
+        })
             .then((res) => {
-                  setIsFavoriteMovies(false);
-                  setuser(res);
-                  localStorage.setItem("userObject", JSON.stringify(res));
-                  alert("Movie is removed from favorite movies");
+                setIsFavoriteMovies(false);
+                const filteredMovies = user.FavoriteMovies.filter((item) => item !== movieToDisplay.Title)
+                const updatedUser = { ...user, FavoriteMovies: filteredMovies }
+                setuser(updatedUser)
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                alert("Movie is removed from favorite movies");
             });
     };
 

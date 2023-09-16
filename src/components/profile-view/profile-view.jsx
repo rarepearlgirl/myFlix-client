@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // import "../movie-card/movie-card.css"; 
 import { MovieCard } from "..//movie-card/movie-card"; 
 
-export const ProfileView = ({ user, movies, token, updateUsername, handleLogout }) => {  
+export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) => {  
 
     // const [username, setUsername] = useState(user);
     const [username, setUsername] = useState(user ? user.Name : "");
@@ -14,11 +14,7 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
     const [birthday, setBirthdate] = useState(user ? user.Birthday : "");
     const [show, setShow] = useState(false);
     const [deregister, setDeregister] = useState(false);
-    const favoriteMovies = user && user.favoriteMovies 
-    ? movies.filter((movie) => user.favoriteMovies.includes(movieTitle))
-    : [];
-
-    // const favoriteMovies = movies.filter((movie) => user.favoriteMovies.includes(movieTitle));  
+    const favoriteMovies = user && user.FavoriteMovies;
 
     useEffect(() => {
   if (user) {
@@ -32,7 +28,7 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
 
     handleShow = () => setShow(true);
     handleClose = () => setShow(false);
-    updateUser = () => {
+    updateCurrentUser = () => {
        
 
         const data = {
@@ -50,7 +46,7 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
                 if (res.username) {
                     localStorage.setItem("user", JSON.stringify(res.username));
                     localStorage.setItem("userObject", JSON.stringify(res));
-                    updateUsername(res);
+                    updateUser(res);
                     alert("Updated Succesfully");
                 }
                 else {
@@ -106,11 +102,16 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
             </Row>
             <Row>
                 <h2 className="text-center mb-5 mt-5">Favorite Movies</h2>
-                {favoriteMovies.map((movie) => (
-                    <Col className="mb-5 d-flex" key={movieTitle} xs={12} sm={6} md={4} lg={3}>
-                        <MovieCard movie={movie} user={user} token={token} setuser={(user) => updateUsername(user)} />
+                {favoriteMovies.map((movieTitle) => {
+                    const currentMovie = movies.find(item => item.Title === movieTitle)
+                    if (!currentMovie) {
+                        return
+                    }
+                    return (
+                        <Col className="mb-5 d-flex" key={movieTitle} xs={12} sm={6} md={4} lg={3}>
+                            <MovieCard movie={currentMovie} user={user} token={token} setuser={updateUser} />
                     </Col>
-                ))}
+                )})}
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -145,7 +146,7 @@ export const ProfileView = ({ user, movies, token, updateUsername, handleLogout 
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={updateUser}>
+                    <Button variant="primary" onClick={updateCurrentUser}>
                         Update User
                     </Button>
                 </Modal.Footer>
