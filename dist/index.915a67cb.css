@@ -40,8 +40,57 @@ h2:hover {
   margin-right: 20px;
 }
 
+.bg-custom {
+  background-color: red !important;
+}
+
+body {
+  background-color: #f0fff0;
+  margin: 0;
+  padding: 20px;
+  font-family: Frank Ruhl Libre, serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 20px;
+  font-family: Bebas Neue, serif;
+}
+
 .my-flix {
   color: #4682b4;
+}
+
+.back-button, .btn {
+  color: #f5f5f5;
+  background-color: #1e90ff;
+  border: none;
+  border-radius: 4px;
+  width: auto;
+  height: 60px;
+  margin: 10px 5px;
+  padding: 10px 20px;
+  transition: background-color .3s;
+}
+
+.back-button:hover, .btn:hover {
+  background-color: #38678f;
+}
+
+.back-button {
+  color: #f5f5f5;
+  background-color: #4682b4;
+}
+
+.card-img, .movieCard img, .moviePoster, .Card.moviePoster {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 300px !important;
+}
+
+.card-img, .movieCard img, .Card.moviePoster {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 400px !important;
 }
 
 /*# sourceMappingURL=index.915a67cb.css.map */

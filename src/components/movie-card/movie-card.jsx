@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Button, Card, Row, Col } from "react-bootstrap";
-import './movie-card.css';
+// import './movie-card.css';
 import "../../index.scss";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";

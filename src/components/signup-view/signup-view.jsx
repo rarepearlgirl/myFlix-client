@@ -28,7 +28,7 @@ export const SignUp = ({onChangePage}) => {
             }).then((response) => {
                 if (response.ok) {
                     alert("Signup successfull!");
-                    // window.location.reload();   
+                    window.location.reload();   
                 }
                 else {
                     alert("Signup failed! Reason: " + error.message);

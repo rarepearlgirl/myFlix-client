@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Row, Col, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../movie-card/movie-card.css"; 
+// import "../movie-card/movie-card.css"; 
 import { MovieCard } from "..//movie-card/movie-card"; 
 
-export const ProfileView = ({ user, movies, token, updateUsername }) => {  
+export const ProfileView = ({ user, movies, token, updateUsername, handleLogout }) => {  
 
     // const [username, setUsername] = useState(user);
     const [username, setUsername] = useState(user ? user.Name : "");

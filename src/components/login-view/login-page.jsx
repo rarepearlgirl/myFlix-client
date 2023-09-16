@@ -32,10 +32,10 @@ export const LoginPage = ({ onLoggedIn }) => {
          })
          .then((data) => {
             if (data.user) {
-               localStorage.setItem("user", JSON.stringify(data.user.username));
+               localStorage.setItem("user", JSON.stringify(data.user));
                localStorage.setItem("token", data.token);
-               localStorage.setItem("userObject", JSON.stringify(data.user.username));
-               onLoggedIn(data.user, data.token);
+               localStorage.setItem("userObject", JSON.stringify(data.user));
+               onLoggedIn({user: data.user, token: data.token});
             } else {
                alert(data.message || "Login failed");
             }
