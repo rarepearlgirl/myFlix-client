@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import {LoginPage} from "./components/login-view/login-page"
+import {LoginPage} from "..//..//myFlix-client/src/components/login-view/login-page"
 import { MainView } from './components/main-view/main-view';
 
 

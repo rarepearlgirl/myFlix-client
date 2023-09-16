@@ -1,0 +1,5 @@
+.card-img, .movieCard img, .Card.moviePoster {
+    width: 100% !important;
+    height: 400px !important;
+    object-fit: cover !important;
+}
