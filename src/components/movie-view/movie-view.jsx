@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-// import "./movie-view.css"
+import "./movie-view.css"
 import { useState, useEffect } from 'react';
 import { Button, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";

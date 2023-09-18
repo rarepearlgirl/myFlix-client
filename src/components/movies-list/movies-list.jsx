@@ -1,6 +1,8 @@
 import React from 'react';
 import { Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
+import "../movie-card/movie-card.css";
+import "../../index.scss";
 
 export const MoviesList = ({ movies, userObject, token, onSetUserData }) => {
   if (!movies || movies.length < 1) {

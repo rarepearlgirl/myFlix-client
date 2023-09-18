@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { createRoot } from 'react-dom/client';
 import {LoginPage} from "..//..//myFlix-client/src/components/login-view/login-page"
 import { MainView } from './components/main-view/main-view';

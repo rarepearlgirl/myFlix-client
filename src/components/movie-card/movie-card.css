@@ -1,0 +1,61 @@
+/* .movie-card {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card {
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+  .card-title {
+    font-size: 24px;
+  }
+
+  .card-text {
+    letter-spacing: 1px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  } */
+
+  /* &.top {
+    .card-img-top {
+      height: $card-height;
+      object-fit: cover;
+    }
+  } */
+/* } */
+
+.card-img, .movieCard img, .Card.moviePoster {
+    width: 100% !important;
+    height: 400px !important;
+    object-fit: cover !important;
+}
+
+
+.movie-card {
+   height: 200px;  
+   object-fit: cover; 
+}
+h6 {
+  font-family: 'Bebas Neue', serif;
+}
+
+.card-title {
+    font-size: 24px; 
+  }  
+  .card-text {
+    letter-spacing: 1px;
+    line-height: 1.5; 
+  }
+
+
+body {
+  font-family: 'Frank Ruhl Libre', serif;  
+  background-color: honeydew;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', serif;
+}
