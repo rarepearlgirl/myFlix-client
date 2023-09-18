@@ -1,33 +1,50 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import { Button, Row, Col } from "react-bootstrap";
+import "../../index.scss";
 // import { useEffect, useState } from "react";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies, onBackClick }) => {
+  console.log('Rendering movie:', movies);
   return (
     <div>
       <div>
-        <img src={movie.ImagePath} />
+        <img src={movies.ImagePath} alt="Movie Poster" />
       </div>
       <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
+        <strong>Title: </strong>
+        <span>{movies.Title}</span>
       </div>
       <div>
-        <span>Director: </span>
-        <span>{movie.Director.Name}</span>
+        <strong>Director: </strong>
+        <span>{movies.Director.Name}</span>
       </div>
-      <button onClick={onBackClick}>Back</button>
+           <div>
+        <strong>Director's Bio: </strong>
+        <span>{movies.Director.Bio}</span>
+      </div>
+      <div>
+        <strong>Genre: </strong>
+        <span>{movies.Genre.Name}</span>
+      </div>
+      <div>
+        <strong>Genre Description: </strong>
+        <p>{movies.Genre.Description}</p>
+      </div>
+      <button onClick={onBackClick} className="back-button"
+      style={{ cursor: "pointer" }}>Back</button>
     </div>
   );
 };
 
 
 MovieView.propTypes = {
-  movie: PropTypes.shape({
+  movies: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Director: PropTypes.shape({
       Name: PropTypes.string.isRequired
     }),
-    Image: PropTypes.string, // Not marking as required if it's possible for a movie to not have an image
+    ImagePath: PropTypes.string, // Not marking as required if it's possible for a movie to not have an image
   }).isRequired,
   onBackClick: PropTypes.func.isRequired
 };

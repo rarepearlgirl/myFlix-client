@@ -2,63 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginPage } from "../login-view/login-page";
-import "./main-view.css"
+import { SignUp } from '../signup-view/signup-view';
+import "./main-view.css";
+import { Button, Row, Col } from "react-bootstrap"
 
 export const MainView = () => {
+
+  const storedToken = localStorage.getItem("token");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const [movies, setMovies] = useState([]);
-
   // state changes for selected movies
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [user, setUser] = useState(null);
+  const [selectedMovies, setSelectedMovies] = useState(null);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
 
-  useEffect(() => {
-    fetch('https://movie-api-uahq.onrender.com/movies')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setMovies(data);
-      })
-      .catch((error) => console.error('Error:', error)); // Catch and log any errors
+useEffect(() => {
+    if (!token) return;
+    fetch('https://movie-api-wbl0.onrender.com/movies', {
+        headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        setMovies(data);  // <-- Directly using the data
+    })
+    .catch((error) => console.error('Error:', error));
+}, [token]);
 
-  }, []);
+  const onLoggedIn = (user, token) => {
+    setUser(user);
+    setToken(token);
+    // fetchMovies(token);
+  }
+
+  const onBackClick = () => setSelectedMovies(null);
 
   if (!user) {
-    return <LoginPage onLoggedIn={(user) => setUser(user)}/>;
+    return <LoginPage onLoggedIn={onLoggedIn} />;
   }
 
-  if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />;
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
+  if (selectedMovies) {
+    return <MovieView movies={selectedMovies} onBackClick={onBackClick} />;
   }
 
   return (
-        <div className="application">
-      <div className="navbar">
-        <div className="application-title">
-          <img src="https://www.veryicon.com/icons/miscellaneous/background-basic-version-icon-library/63-content-list.html" height="45" width="45" />
-          <h1>MovieList</h1>
+    <div className="application">
+      <Row>
+        <div className="navbar">
+          <div className="application-title">
+            <img src="" alt="App Logo" height="" width="" />
+            <h1>Movie List</h1>
+          </div>
+          <h2 onClick={() => {
+            setUser(null);
+            localStorage.clear();
+          }}>
+            Logout
+          </h2>
         </div>
+      </Row>
 
-        <h2 onClick={() => {
-          setUserName(null);
-          setToken(null);
-          localStorage.clear();
-        }
-        }>Logout</h2>
-      </div>
-    <div>
-      {movies.map((movie, i) => (
-        <MovieCard key={i}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
+{movies.length > 0 ? (
+  <Row>
+    {movies.map((moviesItem, index) => (
+      <Col className="mb-5 d-flex" key={moviesItem._id} xs={6} sm={6} md={3} lg={3}>
+        <MovieCard
+          movies={moviesItem}
+          onMovieClick={(newSelectedMovies) => {
+            setSelectedMovies(newSelectedMovies);
           }}
         />
-      ))}
-    </div>
+      </Col>
+    ))}
+  </Row>
+) : (
+  <Row>
+    <Col>
+      <div>Movie list empty</div>
+    </Col>
+  </Row>
+)}
     </div>
   );
-};
