@@ -38,7 +38,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
             Password: password
         };
       fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
-            method: "PUT",
+            method: "PATCH",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
             body: JSON.stringify(data)
         }).then((response) => response.json())
@@ -51,12 +51,13 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
                 }
                 else {
                     alert("Update failed");
-                }
-            });
+                } 
+            }).catch((error) => console.error("User update error:", error)
+            );
         setShow(false);
     };
     deleteUser = () => {
-        fetch("https://movie-api-wbl0.onrender.com/users/" + user, {
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
             method: "DELETE",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
             })
@@ -136,7 +137,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
 
                         <Form.Group className="mb-3" controlId="formBasicBirthday">
                             <Form.Label>Birthday</Form.Label>
-                            <Form.Control type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} required />
+                            <Form.Control type="date" value={birthday} onChange={(e) => setBirthdate(e.target.value)} required />
                         </Form.Group>
 
 
