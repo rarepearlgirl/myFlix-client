@@ -41,7 +41,7 @@ export const SignUp = ({onChangePage}) => {
 
     return (
         <div>
-        <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group>
                 <Form.Label>Email: </Form.Label>
                 <Form.Control

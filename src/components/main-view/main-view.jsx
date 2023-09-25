@@ -13,7 +13,6 @@ export const MainView = () => {
   const userItem = localStorage.getItem("user");
   // const userObjectItem = localStorage.getItem("userObject");
   const savedUser = !!userItem && userItem !== "undefined" ? JSON.parse(userItem) : null;
-  // const savedUserObject = userObjectItem ? JSON.parse(userObjectItem) : null;
   // const savedUserObject = (userObjectItem && userObjectItem !== 'undefined') ? JSON.parse(userObjectItem) : null;
   const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
@@ -50,6 +49,11 @@ export const MainView = () => {
     // updateUsername(user)
   };
 
+  const onLoggedIn = ({ user, token }) => { 
+     setUser(user); 
+     setToken(token) 
+    }
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -79,7 +83,7 @@ export const MainView = () => {
                 {user ? (
                   <Navigate to="/" />
                 ) : (
-                  <LoginPage onLoggedIn={({ user, token }) => { setUser(user); setToken(token) }} />
+                    <LoginPage onLoggedIn={onLoggedIn} />
                 )}
               </>
 
@@ -106,7 +110,7 @@ export const MainView = () => {
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : (
-                    <MoviesList movies={movies} userObject={user} token={token} onSetUserData={onSetUserData}/>
+                    <MoviesList movies={movies} user={user} token={token} onSetUserData={onSetUserData}/>
                 )}
               </>
             }

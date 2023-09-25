@@ -37,16 +37,16 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
             Name: username,
             Password: password
         };
-      fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
-            method: "PATCH",
+
+        fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
+            method: "PUT",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
             body: JSON.stringify(data)
         }).then((response) => response.json())
             .then((res) => {
-                if (res.username) {
+                if (res.message === "success") {
                     localStorage.setItem("user", JSON.stringify(res.username));
-                    localStorage.setItem("userObject", JSON.stringify(res));
-                    updateUser(res);
+                    updateUser(user);
                     alert("Updated Succesfully");
                 }
                 else {
@@ -56,6 +56,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
             );
         setShow(false);
     };
+
     deleteUser = () => {
         fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
             method: "DELETE",
@@ -63,17 +64,14 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
             })
             .then((response) => {
                 if (response.ok) {
-                    return response.json();
+                    return response;
                 }
             })
             .then((data) => {
                 console.log(data);
+                localStorage.clear()
                 alert("Account deleted successfully!");
-                updateUserName(null);
-                localStorage.clear();
                 window.location.reload();
-
-
             });
     };
     handleDeregister = () => setDeregister(true);
@@ -94,7 +92,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
                             </Card.Text>
 
                             <Button variant="primary" data-inline="true" className="m-4 float-end" onClick={handleShow}>Update profile</Button>
-                            <Button variant="primary" data-inline="true" className="m-4 float-end" onClick={handleLogout}>Deregister your account</Button>
+                            <Button variant="primary" data-inline="true" className="m-4 float-end" onClick={deleteUser}>Deregister your account</Button>
 
 
                         </Card.Body>
@@ -103,7 +101,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
             </Row>
             <Row>
                 <h2 className="text-center mb-5 mt-5">Favorite Movies</h2>
-                {favoriteMovies.map((movieTitle) => {
+                {favoriteMovies && favoriteMovies.map((movieTitle) => {
                     const currentMovie = movies.find(item => item.Title === movieTitle)
                     if (!currentMovie) {
                         return
