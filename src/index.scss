@@ -33,11 +33,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.back-button {
-  color: whitesmoke;
-  background-color: $color;
-}
-
 .movie-card {
   margin-bottom: 20px;    
   width: 100%; 
@@ -64,9 +59,17 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-.card-img, .movieCard img, .moviePoster, .Card.moviePoster {
+.card-img, .movieCard img {
     width: 100% !important;
     height: 200px;
     object-fit: cover !important;
+  }
+
+  .card-image {
+    margin-top: 10px;
+  }
+
+  .btn-dark {
+    background-color: black;
   }
 

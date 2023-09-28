@@ -84,7 +84,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
         <div><Card.Img src={movieToDisplay.ImagePath}/></div>
         <Card.Body>
             
-            <Card.Title><strong>Title: {movieToDisplay.Title}<br/></strong></Card.Title>
+            <Card.Title><strong>{movieToDisplay.Title}<br/></strong></Card.Title>
             <Card.Text><h5>{movieToDisplay.Director.Name}</h5></Card.Text>
                    <Card.Text>{movieToDisplay.Description}</Card.Text>
              <Card.Text><h6>{movieToDisplay.Genre.Name}</h6></Card.Text>
@@ -95,7 +95,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
                   <Button variant="primary" onClick={removeFromFavoriteMovies}>Remove from Favorite Movies</Button>
                 )}
                 <Link to={"/"}>
-            <Button variant="primary" type='link'>Back</Button>
+            <Button variant="dark" type='link'>Back</Button>
             </Link>
             </Card.Footer>
             
