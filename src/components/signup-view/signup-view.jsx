@@ -1,4 +1,7 @@
+import PropTypes from 'prop-types';
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 export const SignUp = ({onChangePage}) => {
     const [email, setEmail] = useState("");
@@ -7,52 +10,93 @@ export const SignUp = ({onChangePage}) => {
     const [password, setPassword] = useState("");
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
-        console.log(333)
-         const data = {
-            username,
-            password,
-            email,
-            birthday
+         e.preventDefault()
+        const data = {
+            Email: email,
+            Birthday: birthday,
+            Name: username,
+            Password: password
         };
 
-        fetch("https://movie-api-uahq.onrender.com/users", {
-            method: "POST",
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify(data)
-            
-        }).then((response) => {
-            if(response.ok){
-                alert("Signup successfull!");
-
-                window.location.reload();
-            }
-            else{
-                alert("Signup failed!");
-            }
-
-        });
+        try {
+           const user = await fetch("https://movie-api-wbl0.onrender.com/users_add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                if (response.ok) {
+                    alert("Signup successfull!");
+                    window.location.reload();   
+                }
+                else {
+                    alert("Signup failed! Reason: " + error.message);
+                }
+            });
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     return (
-        <div className="login">
-           <h1>Register</h1>
-           <form className="form" onSubmit={handleSubmit}>
-            <label>Email</label>
-            <input placeholder="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
-            <label >Birthdate</label>
-            <input type="date" value={birthday} onChange={(e) => setBirthdate(e.target.value)}></input>
-            <label >Username</label>
-            <input placeholder="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required></input>
-            <label >Password</label>
-            <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-            <label >Password repeat</label>
-            <input placeholder="password" type="password" required></input>
-            <button type="submit" >Register</button>
-            </form>    
-            <button onClick={onChangePage}>Login<br />
+        <div>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                <Form.Label>Email: </Form.Label>
+                <Form.Control
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Birthday: </Form.Label>
+                <Form.Control
+                    type='date'
+                    value={birthday}
+                    onChange={(e) => setBirthdate(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Username:</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
+
+
+            <Button className="signup" variant="primary" type="submit">
+                Submit
+            </Button>
+        </Form>
+            <p>or</p>
+            <button type= "button" className="btn btn-success" onClick={onChangePage}> Login 
             </button>
         </div>
     );
+}
+
+ SignUp.propTypes = {
+    onChangePage: PropTypes.func.isRequired,
 }

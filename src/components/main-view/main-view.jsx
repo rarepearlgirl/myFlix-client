@@ -1,64 +1,133 @@
 import React, { useState, useEffect } from 'react';
-import { MovieCard } from "../movie-card/movie-card";
+import { MoviesList } from "../movies-list/movies-list";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginPage } from "../login-view/login-page";
-import "./main-view.css"
+import { SignUp } from '../signup-view/signup-view';
+import "./main-view.css";
+import { Row, Col } from "react-bootstrap";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "..//profile-view/profile-view";
 
 export const MainView = () => {
+  const userItem = localStorage.getItem("user");
+  // const userObjectItem = localStorage.getItem("userObject");
+  const savedUser = !!userItem && userItem !== "undefined" ? JSON.parse(userItem) : null;
+  // const savedUserObject = (userObjectItem && userObjectItem !== 'undefined') ? JSON.parse(userObjectItem) : null;
+  const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
-
   // state changes for selected movies
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [user, setUser] = useState(null);
+  // const [selectedMovies, setSelectedMovies] = useState(null);
+  const [user, setUser] = useState(savedUser ? savedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
+  // const [userObject, setUserObject] = useState(savedUserObject ? savedUserObject : null);
+  const handleSuccessfulSignup = () => {
+    window.location.href = "/login";
+  };
 
   useEffect(() => {
-    fetch('https://movie-api-uahq.onrender.com/movies')
+    if (!token) return;
+    fetch('https://movie-api-wbl0.onrender.com/movies', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setMovies(data);
       })
-      .catch((error) => console.error('Error:', error)); // Catch and log any errors
+      .catch((error) => console.error('Error:', error));
+  }, [token, user]);
 
-  }, []);
+  const onLogout = () => {
+    setToken(null);
+    localStorage.clear();
+    window.location.reload();
+  };
 
-  if (!user) {
-    return <LoginPage onLoggedIn={(user) => setUser(user)}/>;
-  }
+  const onSetUserData = (updatedUser) => {
+    setUser(updatedUser);
+    // setUserObject(userObject);
+    // updateUsername(user)
+  };
 
-  if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />;
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
+  const onLoggedIn = ({ user, token }) => { 
+     setUser(user); 
+     setToken(token) 
+    }
 
   return (
-        <div className="application">
-      <div className="navbar">
-        <div className="application-title">
-          <img src="https://www.veryicon.com/icons/miscellaneous/background-basic-version-icon-library/63-content-list.html" height="45" width="45" />
-          <h1>MovieList</h1>
-        </div>
+    <BrowserRouter>
+      <NavigationBar
+        user={user}
+        onLogout={onLogout}
+      />
+      <Row className="justify-content-md-center">
 
-        <h2 onClick={() => {
-          setUserName(null);
-          setToken(null);
-          localStorage.clear();
-        }
-        }>Logout</h2>
-      </div>
-    <div>
-      {movies.map((movie, i) => (
-        <MovieCard key={i}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-    </div>
-    </div>
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <SignUp onSuccessfulSignup={handleSuccessfulSignup} />
+                )}
+              </>
+
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                    <LoginPage onLoggedIn={onLoggedIn} />
+                )}
+              </>
+
+            }
+          />
+          <Route
+            path="/movies/:movieId"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                      <MovieView movies={movies} user={user} token={token} setuser={onSetUserData} />
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                    <MoviesList movies={movies} user={user} token={token} onSetUserData={onSetUserData}/>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : (
+                  <ProfileView user={user} movies={movies} token={token} updateUser={onSetUserData} handleLogout={onLogout}/>
+              )
+            }
+          />
+
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };

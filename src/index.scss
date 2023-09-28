@@ -1,6 +1,75 @@
 $color: steelblue;
 $primary: honeydew;
+$card-height: 200px;
+
+body {
+  font-family: 'Frank Ruhl Libre', serif;  
+  background-color: $primary;
+  margin: 0;
+  padding: 20px; 
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', serif;
+  margin-top: 20px; 
+}
 
 .my-flix {
   color: $color;
 }
+
+.back-button, .btn {
+  padding: 10px 20px;
+  color:whitesmoke;
+  background-color: dodgerblue;
+  border: none;
+  border-radius: 4px;
+  margin: 10px 5px;
+  width: auto;
+  height: 60px;
+  transition: background-color 0.3s ease;
+
+   &:hover {
+    background-color: darken($color, 10%); 
+  }
+}
+
+.movie-card {
+  margin-bottom: 20px;    
+  width: 100%; 
+  height: auto;   
+  object-fit: cover;
+
+  .movie-card-title {
+    font-size: 24px; // Adjust the title size.
+  }  
+  .movie-card-text {
+    letter-spacing: 1px; 
+    line-height: 1.5; 
+    margin-bottom: 20px; 
+    overflow: hidden; 
+    max-height: 100px;
+    text-overflow: ellipsis;
+  }
+  &.top {
+    .movie-card-img-top {
+      height: $card-height;
+    }
+
+  }
+
+}
+
+.card-img, .movieCard img {
+    width: 100% !important;
+    height: 200px;
+    object-fit: cover !important;
+  }
+
+  .card-image {
+    margin-top: 10px;
+  }
+
+  .btn-dark {
+    background-color: black;
+  }
+

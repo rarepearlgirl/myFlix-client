@@ -1,0 +1,30 @@
+.card-img, .movieCard img, .Card.moviePoster {
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+
+.movie-card {
+   height: 200px;  
+   object-fit: cover; 
+}
+h6 {
+  font-family: 'Bebas Neue', serif;
+}
+
+.card-title {
+    font-size: 24px; 
+  }  
+  .card-text {
+    letter-spacing: 1px;
+    line-height: 1.5; 
+  }
+
+
+body {
+  font-family: 'Frank Ruhl Libre', serif;  
+  background-color: honeydew;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', serif;
+}
