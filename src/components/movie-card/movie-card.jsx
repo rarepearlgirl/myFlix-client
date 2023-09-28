@@ -84,7 +84,7 @@ export const MovieCard = ({ movie, user, token, setuser }) => {
                 {!isFavoriteMovies ? (
                     <Button variant="primary" onClick={addToFavoriteMovies}>Add to Favorite Movies</Button>
                 ) : (
-                    <Button variant="primary" onClick={removeFromFavoriteMovies}>Remove from Favorite Movies</Button>
+                    <Button variant="dark" onClick={removeFromFavoriteMovies}>Remove from Favorite Movies</Button>
                 )}
                 <Link to={"/movies/" + movie.Title}>
                     <Button variant="dark">Read More</Button>
