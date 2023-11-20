@@ -67,7 +67,7 @@ export const MainView = () => {
             path="/signup"
             element={
               <>
-                {user ? (
+                {!!user ? (
                   <Navigate to="/" />
                 ) : (
                   <SignUp onSuccessfulSignup={handleSuccessfulSignup} />
@@ -80,7 +80,7 @@ export const MainView = () => {
             path="/login"
             element={
               <>
-                {user ? (
+                {!!user ? (
                   <Navigate to="/" />
                 ) : (
                     <LoginPage onLoggedIn={onLoggedIn} />
