@@ -57,7 +57,7 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
         setShow(false);
     };
 
-    deleteUser = () => {
+    const deleteUser = () => {
         fetch("https://movie-api-wbl0.onrender.com/users/" + user.Name, {
             method: "DELETE",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
@@ -74,8 +74,8 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
                 window.location.reload();
             });
     };
-    handleDeregister = () => setDeregister(true);
-    handleCloseDeregister = () => setDeregister(false);
+    const handleDeregister = () => setDeregister(true);
+    const handleCloseDeregister = () => setDeregister(false);
 
     if (username !== null) {
         return (<>
