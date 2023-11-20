@@ -55,7 +55,7 @@ export const MainView = () => {
     }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <NavigationBar
         user={user}
         onLogout={onLogout}
