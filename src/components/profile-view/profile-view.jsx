@@ -26,9 +26,9 @@ export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) =
 
 
 
-    handleShow = () => setShow(true);
-    handleClose = () => setShow(false);
-    updateCurrentUser = () => {
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const updateCurrentUser = () => {
        
 
         const data = {
