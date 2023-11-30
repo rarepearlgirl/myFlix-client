@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // import "../movie-card/movie-card.css"; 
 import { MovieCard } from "..//movie-card/movie-card"; 
 
-export const ProfileView = ({ user, movies, token, updateUser, handleLogout }) => {  
+export const ProfileView = ({ user, movies, token, updateUser }) => {  
 
     // const [username, setUsername] = useState(user);
     const [username, setUsername] = useState(user ? user.Name : "");

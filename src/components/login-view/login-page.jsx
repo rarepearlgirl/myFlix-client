@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import "./login-page.jsx";
 import { useState } from "react";
 import { SignUp } from '../signup-view/signup-view';
-
+import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
@@ -35,7 +35,7 @@ export const LoginPage = ({ onLoggedIn }) => {
                localStorage.setItem("user", JSON.stringify(data.user));
                localStorage.setItem("token", data.token);
                localStorage.setItem("userObject", JSON.stringify(data.user));
-               onLoggedIn({user: data.user, token: data.token});
+               onLoggedIn({ user: data.user, token: data.token });
             } else {
                alert(data.message || "Login failed");
             }
@@ -56,33 +56,40 @@ export const LoginPage = ({ onLoggedIn }) => {
 
    return (
       <div>
-         <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUserName">
-               <Form.Label>Username:</Form.Label>
-               <Form.Control
-                  type="text"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  required
-                  autoComplete="username"
-               />
-            </Form.Group>
+         <Row>
+            <Col></Col>
+            <Col>
+               <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="formUserName">
+                     <Form.Label>Username:</Form.Label>
+                     <Form.Control
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        required
+                        autoComplete="username"
+                     />
+                  </Form.Group>
 
-            <Form.Group controlId="formPassword">
-               <Form.Label>Password:</Form.Label>
-               <Form.Control
-                  type="password"
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
-                  required
-                  autoComplete="current-password"
-               />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-               Submit
-            </Button>
-            <p>or</p>
-         </Form>
+                  <Form.Group controlId="formPassword">
+                     <Form.Label>Password:</Form.Label>
+                     <Form.Control
+                        type="password"
+                        value={pass}
+                        onChange={(e) => setPass(e.target.value)}
+                        required
+                        autoComplete="current-password"
+                     />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">
+                     Submit
+                  </Button>
+                  <p>or</p>
+               </Form>
+            </Col>
+            <Col></Col>
+         </Row>
+
          <button type="button" className="btn btn-success" onClick={onChangePage}>Create account
          </button></div>
    );

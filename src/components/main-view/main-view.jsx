@@ -8,51 +8,84 @@ import { Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "..//profile-view/profile-view";
+import { useSelector, useDispatch } from 'react-redux';
+import { setMovies } from '../../redux/reducers/movies';
+import { setDirectors } from '../../redux/reducers/directors';
+import { setUserProfile } from '../../redux/reducers/users';
+import { setUserToken } from '../../redux/reducers/users';
+import { setGenres } from '../../redux/reducers/genres';
 
 export const MainView = () => {
-  const userItem = localStorage.getItem("user");
-  // const userObjectItem = localStorage.getItem("userObject");
+  const userItem = localStorage.getItem("user");;
   const savedUser = !!userItem && userItem !== "undefined" ? JSON.parse(userItem) : null;
-  // const savedUserObject = (userObjectItem && userObjectItem !== 'undefined') ? JSON.parse(userObjectItem) : null;
-  const storedToken = localStorage.getItem("token");
-  const [movies, setMovies] = useState([]);
-  // state changes for selected movies
-  // const [selectedMovies, setSelectedMovies] = useState(null);
-  const [user, setUser] = useState(savedUser ? savedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-  // const [userObject, setUserObject] = useState(savedUserObject ? savedUserObject : null);
+
+  const movies = useSelector((state) => state.movies.list);
+  const user = useSelector((state) => state.user)
+
+  const [currentUser, setUser] = useState(savedUser)
+
   const handleSuccessfulSignup = () => {
     window.location.href = "/login";
   };
+  console.log(111111, user)
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!token) return;
+    const storedToken = localStorage.getItem("token");
+    dispatch(setUserProfile(savedUser));
+    dispatch(setUserToken(storedToken));
+    setUser(savedUser)
+  }, [])
+
+  useEffect(() => {
+    if (!user.token) return;
     fetch('https://movie-api-wbl0.onrender.com/movies', {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${user.token}` },
     })
       .then((response) => response.json())
       .then((data) => {
         setMovies(data);
+        console.log('Fetched data:', data);
+        const directors = data.map((movie) => movie.Director.Name);
+        const directorsUnique = Array.from(new Set(directors));
+        dispatch(setDirectors(directorsUnique));
+        const moviesData = data.map((movie) => {
+          return {
+            Title: movie.Title,
+            Description: movie.Description,
+            ImagePath: movie.ImagePath,
+            Actors: movie.Actors,
+            Director: movie.Director,
+            Genre: movie.Genre,
+          };
+        });
+        dispatch(setMovies(moviesData));
+
+        const genres = data.map((movie) => movie.Genre.Name);
+
+        const genresUnique = Array.from(new Set(genres));
+        dispatch(setGenres(genresUnique));
       })
       .catch((error) => console.error('Error:', error));
-  }, [token, user]);
+  }, [user.token, user.profile]);
 
   const onLogout = () => {
-    setToken(null);
     localStorage.clear();
+    dispatch(setUserProfile(null));
+    dispatch(setUserToken(null));
     window.location.reload();
   };
 
   const onSetUserData = (updatedUser) => {
-    setUser(updatedUser);
-    // setUserObject(userObject);
-    // updateUsername(user)
+    dispatch(setUserProfile(updatedUser));
   };
 
-  const onLoggedIn = ({ user, token }) => { 
-     setUser(user); 
-     setToken(token) 
-    }
+  const onLoggedIn = ({ user, token }) => {
+    setUser(user)
+    dispatch(setUserProfile(user));
+    dispatch(setUserToken(token));
+  }
+  console.log(1111111, currentUser)
 
   return (
     <BrowserRouter basename="/">
@@ -67,7 +100,7 @@ export const MainView = () => {
             path="/signup"
             element={
               <>
-                {user ? (
+                {currentUser ? (
                   <Navigate to="/" />
                 ) : (
                   <SignUp onSuccessfulSignup={handleSuccessfulSignup} />
@@ -80,10 +113,10 @@ export const MainView = () => {
             path="/login"
             element={
               <>
-                {user ? (
+                {currentUser ? (
                   <Navigate to="/" />
                 ) : (
-                    <LoginPage onLoggedIn={onLoggedIn} />
+                  <LoginPage onLoggedIn={onLoggedIn} />
                 )}
               </>
 
@@ -93,12 +126,12 @@ export const MainView = () => {
             path="/movies/:movieId"
             element={
               <>
-                {!user ? (
+                {!currentUser ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                      <MovieView movies={movies} user={user} token={token} setuser={onSetUserData} />
+                  <MovieView />
                 )}
               </>
             }
@@ -107,10 +140,10 @@ export const MainView = () => {
             path="/"
             element={
               <>
-                {!user ? (
+                {!currentUser ? (
                   <Navigate to="/login" replace />
                 ) : (
-                    <MoviesList movies={movies} user={user} token={token} onSetUserData={onSetUserData}/>
+                  <MoviesList movies={movies} user={user} token={user.token} onSetUserData={onSetUserData} />
                 )}
               </>
             }
@@ -118,10 +151,10 @@ export const MainView = () => {
           <Route
             path="/profile"
             element={
-              !user ? (
+              !currentUser ? (
                 <Navigate to="/login" replace />
               ) : (
-                  <ProfileView user={user} movies={movies} token={token} updateUser={onSetUserData} handleLogout={onLogout}/>
+                  <ProfileView user={currentUser} movies={movies} token={user.token} updateUser={onSetUserData} handleLogout={onLogout} />
               )
             }
           />

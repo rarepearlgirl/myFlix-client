@@ -10,6 +10,7 @@ import "../navigation-bar/navigation-bar";
 export const MovieCard = ({ movie, user, token, setuser }) => {
     const isMovieAdded = user.FavoriteMovies.find((item) => item === movie.Title)
     const [isFavoriteMovies, setIsFavoriteMovies] = useState(!!isMovieAdded);
+    console.log(5555, movie)
 
     useEffect(() => {
         if (user && user.favoriteMovies && user.favoriteMovies.includes(movieTitle)) {
@@ -74,10 +75,7 @@ export const MovieCard = ({ movie, user, token, setuser }) => {
 
                 <Card.Title>{movie.Title}</Card.Title>
                 <Card.Text><h5>{movie.Director.Name}</h5></Card.Text>
-                {/* <Card.Text>{movie.Description}</Card.Text> */}
                 <Card.Text><h6>{movie.Genre.Name}</h6></Card.Text>
-
-
 
             </Card.Body>
             <Card.Footer className="text-center mb-3">

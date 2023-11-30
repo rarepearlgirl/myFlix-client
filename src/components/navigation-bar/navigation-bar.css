@@ -1,3 +1,28 @@
+/* navigation-bar.css */
 .bg-custom {
-background-color: red !important; /*felt cute, will delete later*/
+  background-color: red !important; 
+}
+
+/* Custom styling for the search bar */
+.navbar {
+  padding: 0.5rem 1rem; 
+}
+
+/* Style for the search input */
+.form-control {
+  background-color: #ffffff;
+  color: #0c7567; 
+  border: 5px solid #ced4da; 
+  border-radius: 0.25rem;
+  height: fit-content;
+}
+
+/* Style for the search button */
+.btn-outline-light {
+  background-color: #007bff; 
+  border: 1px solid #007bff;
+  color: #ffffff; 
+  padding: 0.375rem 0.75rem; 
+  font-size: 0.875rem; 
+  height: fit-content;
 }

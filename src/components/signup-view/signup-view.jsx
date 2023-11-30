@@ -98,5 +98,5 @@ export const SignUp = ({onChangePage}) => {
 }
 
  SignUp.propTypes = {
-    onChangePage: PropTypes.func.isRequired,
+    onChangePage: PropTypes.func,
 }

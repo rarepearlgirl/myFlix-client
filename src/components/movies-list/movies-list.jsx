@@ -1,20 +1,48 @@
 import React from 'react';
-import { Row, Col } from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card";
-import "../movie-card/movie-card.css";
+import { useSelector } from 'react-redux';
+import { MovieCard } from '../movie-card/movie-card';
+import { MoviesFilter } from '../movies-filter/movies-filter';
+import { Col, Row } from 'react-bootstrap';
+import { setUserProfile } from '../../redux/reducers/users';
+import { useDispatch } from 'react-redux';
 import "../../index.scss";
 
-export const MoviesList = ({ movies, user, token, onSetUserData }) => {
-  if (!movies || movies.length < 1) {
-    return <div><h3>The list is empty!</h3></div>
+export const MoviesList = () => {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user)
+  const movies = useSelector((state) => state.movies.list);
+  const filter = useSelector((state) => state.movies.filter)
+  .trim().toLowerCase();
+  console.log(666, movies)
+  
+  const filteredMovies = movies.filter(
+    (movie) =>
+      movie.Title?.toLowerCase().includes(filter) ||
+      movie.Genre?.Name?.toLowerCase().includes(filter) ||
+      movie.Director?.Name?.toLowerCase().includes(filter)
+  );
+
+  const setUserData = (savedUser) => {
+    dispatch(setUserProfile(savedUser));
   }
+
   return (
-  <>
-    {movies.map((movie) => (
-      <Col className="mb-4" key={movie._id} xs={12} sm={6} md={3} lg={3}>
-        <MovieCard movie={movie} user={user} token={token} setuser={onSetUserData} />
-      </Col>
-    ))}
-  </>
+    <>
+      <Row>
+        <MoviesFilter />
+      </Row>
+      <Row className="movie-list justify-content-md-center">
+        {movies.length === 0 ? (
+          <Col>The List is Empty!</Col>
+        ) : (
+            filteredMovies.map((movie) => (
+            <Col className="mb-4" key={movie.Title} md={3}>
+                <MovieCard movie={movie} user={user.userProfile} token={user.token} setuser={setUserData} />
+            </Col>
+          ))
+        )}
+      </Row>
+    </>
   );
 };

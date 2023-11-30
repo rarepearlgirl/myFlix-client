@@ -8,26 +8,35 @@ import "../../index.scss";
 import './movie-view.css';
 import "..//movie-card/movie-card";
 // import {MovieCard} from "..//movie-card/movie-card";
+import { useSelector } from 'react-redux';
+import { setUserProfile } from '../../redux/reducers/users';
+import { useDispatch } from 'react-redux';
 
-export const MovieView = ({ movies, user, token, setuser }) => {
-    console.log('Rendering movie:', movies);
-    const {movieId} = useParams();
-    console.log("All movies:", movies);
-    console.log("movieId from URL:", movieId);
+export const MovieView = () => {
+    const dispatch = useDispatch();
+
+    const movies = useSelector((state) => state.movies.list);
+    const user = useSelector((state) => state.user.userProfile);
+    const token = useSelector((state) => state.user.token)
+
+    const { movieId } = useParams();
     const movieToDisplay = movies.find((movie) => movie.Title === movieId);
+    const isMovieAdded = user.FavoriteMovies.find((item) => item === movieToDisplay.Title)
+
+    const [isFavoriteMovies, setIsFavoriteMovies] = useState(!!isMovieAdded);
+
     if (!movieToDisplay) {
   return <div>Movie not found!</div>;
 }
-    const isMovieAdded = user.FavoriteMovies.find((item) => item === movieToDisplay.Title)
 
-
-    const [isFavoriteMovies, setIsFavoriteMovies] = useState(!!isMovieAdded);
+    const setUserData = (savedUser) => {
+        dispatch(setUserProfile(savedUser));
+    }
        
     useEffect(() => {
-    
       if(user && user.favoriteMovies && user.favoriteMovies.includes(movieTitle) ){
         setIsFavoriteMovies(true);
-        console.log("Favorite movie:", favoriteMovie);
+        console.log("Favorite movie:", favoriteMovies);
       }
     }, []);
 
@@ -50,7 +59,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
             .then((res) => {
                 setIsFavoriteMovies(true);
                 const updatedUser = { ...user, FavoriteMovies: [...user.FavoriteMovies, movieToDisplay.Title] }
-                setuser(updatedUser);
+                setUserData(updatedUser)
                 localStorage.setItem("user", JSON.stringify(updatedUser));
                 alert("Movie is added to favorite movies");
             }).catch((error) => console.error(error));
@@ -72,7 +81,7 @@ export const MovieView = ({ movies, user, token, setuser }) => {
                 setIsFavoriteMovies(false);
                 const filteredMovies = user.FavoriteMovies.filter((item) => item !== movieToDisplay.Title)
                 const updatedUser = { ...user, FavoriteMovies: filteredMovies }
-                setuser(updatedUser)
+                setUserData(updatedUser)
                 localStorage.setItem("user", JSON.stringify(updatedUser));
                 alert("Movie is removed from favorite movies");
             });
